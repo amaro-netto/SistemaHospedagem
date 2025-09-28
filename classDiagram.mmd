@@ -1,0 +1,38 @@
+classDiagram
+    class Pessoa {
+        - Nome : string
+        - Sobrenome : string
+        + NomeCompleto : string
+    }
+
+    class Suite {
+        - TipoSuite : string
+        - Capacidade : int
+        - ValorDiaria : decimal
+    }
+
+    class Reserva {
+        - Id : int
+        - Hospedes : List<Pessoa>
+        - Suite : Suite
+        - DiasReservados : int
+        + CadastrarHospedes(hospedes) : void
+        + CadastrarSuite(suite) : void
+        + ObterQuantidadeHospedes() : int
+        + CalcularValorSemDesconto() : decimal
+        + CalcularValorDiaria() : decimal (c/ desconto)
+    }
+
+    class Program {
+        + ListaDeReservas : List<Reserva>
+        + ExibirMenu() : void
+        + CadastrarNovaReserva() : void
+        + ListarReservas() : void
+        + CancelarReserva() : void
+    }
+    
+    Reserva "1" *-- "1..*" Pessoa : hospedes
+    Reserva "1" *-- "1" Suite : suite
+    
+    %% Relacionamento de dependência: Program usa a classe Reserva
+    Program ..> Reserva
