@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Program.cs (Arquivo Completo e Corrigido)
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaHospedagem.Models;
@@ -7,9 +8,10 @@ namespace SistemaHospedagem
 {
     class Program
     {
-        // Lista para armazenar todas as reservas feitas (fora do Main)
         static List<Reserva> ListaDeReservas = new List<Reserva>();
         static int ProximoIdReserva = 1; // Contador para dar um ID único a cada reserva
+
+        // ... Método Main e ExibirMenu (sem alterações) ...
 
         static void Main(string[] args)
         {
@@ -20,7 +22,6 @@ namespace SistemaHospedagem
             Console.WriteLine("        BEM-VINDO AO SISTEMA DE RESERVAS       ");
             Console.WriteLine("-----------------------------------------------");
 
-            // Loop principal do menu
             while (continuar)
             {
                 ExibirMenu();
@@ -47,12 +48,11 @@ namespace SistemaHospedagem
                         break;
                 }
                 
-                // Pausa para que o usuário veja o resultado antes de o menu limpar
                 if (continuar)
                 {
                     Console.WriteLine("\n\nPressione qualquer tecla para continuar...");
                     Console.ReadKey();
-                    Console.Clear(); // Limpa a tela para o próximo menu
+                    Console.Clear();
                 }
             }
         }
@@ -69,14 +69,12 @@ namespace SistemaHospedagem
             Console.Write("\nEscolha uma opção: ");
         }
 
-        // Método que contém toda a lógica de interação que criamos anteriormente
         static void CadastrarNovaReserva()
         {
             Console.Clear();
             Console.WriteLine("--- NOVO CADASTRO DE RESERVA ---");
 
-            // --- 1. Coletando dados da Suíte ---
-            // ... [Lógica de coleta de dados da Suíte] ...
+            // ... [Lógica de coleta de dados da Suíte - Sem alteração] ...
 
             Console.Write("Digite o tipo da suíte (Ex: Premium, Luxo, Padrão): ");
             string? tipoSuite = Console.ReadLine();
@@ -109,7 +107,8 @@ namespace SistemaHospedagem
             }
 
 
-            // --- 3. Coletando dados dos Hóspedes ---
+            // --- 3. Coletando dados dos Hóspedes (Sem alteração) ...
+
             Console.WriteLine($"\n--- Cadastro de Hóspedes (Máximo: {suite.Capacidade}) ---");
             List<Pessoa> hospedes = new List<Pessoa>();
 
@@ -142,20 +141,18 @@ namespace SistemaHospedagem
             {
                 reserva.CadastrarHospedes(hospedes);
                 
-                // Adiciona a reserva à lista global
+                // CORREÇÃO AQUI: Agora usamos a nova propriedade 'Id' para guardar o ID
+                reserva.Id = ProximoIdReserva; 
                 ListaDeReservas.Add(reserva);
-                
-                // Atribui um ID (simulação)
-                // Usaremos a propriedade Hospedes para guardar o ID temporariamente na listagem
-                // O ideal seria criar uma propriedade 'Id' na classe Reserva, mas simplificamos para o console.
-                reserva.DiasReservados = ProximoIdReserva; 
+                ProximoIdReserva++; 
 
                 // --- 5. Exibindo os Resultados (Com valores de desconto) ---
                 decimal valorSemDesconto = reserva.CalcularValorSemDesconto();
                 decimal valorTotal = reserva.CalcularValorDiaria();
 
                 Console.WriteLine("\n*** RESERVA REALIZADA COM SUCESSO! ***");
-                Console.WriteLine($"ID da Reserva (Para Cancelamento): {reserva.DiasReservados}");
+                // CORREÇÃO AQUI: Mostramos o ID correto E os Dias Reservados corretos
+                Console.WriteLine($"ID da Reserva (Para Cancelamento): {reserva.Id}");
                 Console.WriteLine($"Suíte: {reserva.Suite!.TipoSuite} | Dias: {reserva.DiasReservados}");
                 
                 if (valorTotal < valorSemDesconto)
@@ -167,8 +164,6 @@ namespace SistemaHospedagem
                 {
                     Console.WriteLine($"Valor Total: R$ {valorTotal:F2}");
                 }
-
-                ProximoIdReserva++; // Incrementa para o próximo ID
             }
             catch (Exception ex)
             {
@@ -189,11 +184,11 @@ namespace SistemaHospedagem
             
             foreach (var reserva in ListaDeReservas)
             {
-                // Para exibir o ID da reserva, usaremos a propriedade DiasReservados, 
-                // pois modificamos ela para guardar o ID (ProximoIdReserva).
+                // CORREÇÃO AQUI: Usamos reserva.Id para exibir o ID
                 Console.WriteLine("------------------------------------------");
-                Console.WriteLine($"ID: {reserva.DiasReservados}");
+                Console.WriteLine($"ID: {reserva.Id}");
                 Console.WriteLine($"Suíte: {reserva.Suite!.TipoSuite} | Capacidade: {reserva.Suite.Capacidade}");
+                // CORREÇÃO AQUI: Mostramos os Dias Reservados corretos
                 Console.WriteLine($"Dias: {reserva.DiasReservados} | Hóspedes: {reserva.ObterQuantidadeHospedes()}");
                 Console.WriteLine($"Valor Final: R$ {reserva.CalcularValorDiaria():F2}");
                 Console.WriteLine($"Hóspede Principal: {reserva.Hospedes?.FirstOrDefault()?.NomeCompleto ?? "N/A"}");
@@ -215,8 +210,8 @@ namespace SistemaHospedagem
             Console.Write("Digite o ID da reserva que deseja cancelar: ");
             if (int.TryParse(Console.ReadLine(), out int idParaCancelar))
             {
-                // Busca a reserva pelo ID (que está armazenado em DiasReservados)
-                Reserva? reservaParaRemover = ListaDeReservas.FirstOrDefault(r => r.DiasReservados == idParaCancelar);
+                // CORREÇÃO AQUI: Busca a reserva pelo ID da propriedade 'Id'
+                Reserva? reservaParaRemover = ListaDeReservas.FirstOrDefault(r => r.Id == idParaCancelar);
 
                 if (reservaParaRemover != null)
                 {

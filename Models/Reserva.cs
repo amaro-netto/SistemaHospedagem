@@ -5,7 +5,10 @@ namespace SistemaHospedagem.Models
 {
     public class Reserva
     {
-        // Propriedades - adicionamos o '?' (Nullable Reference Type) para evitar os warnings
+        // NOVIDADE: Propriedade exclusiva para o ID da reserva
+        public int Id { get; set; } 
+
+        // Propriedades existentes
         public List<Pessoa>? Hospedes { get; set; }
         public Suite? Suite { get; set; }
         public int DiasReservados { get; set; }
