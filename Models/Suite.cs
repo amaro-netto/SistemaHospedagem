@@ -12,8 +12,8 @@ namespace SistemaHospedagem.Models
             ValorDiaria = valorDiaria;
         }
 
-        // Propriedades (características) da classe Suite
-        public string TipoSuite { get; set; }
+        // Adicionando '?' para evitar o warning
+        public string? TipoSuite { get; set; }
         public int Capacidade { get; set; }
         public decimal ValorDiaria { get; set; }
     }
