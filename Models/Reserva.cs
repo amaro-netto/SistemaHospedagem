@@ -18,51 +18,56 @@ namespace SistemaHospedagem.Models
             DiasReservados = diasReservados;
         }
 
-        // Método para cadastrar a lista de hóspedes
+        // Método para cadastrar a lista de hóspedes (sem alteração)
         public void CadastrarHospedes(List<Pessoa> hospedes)
         {
-            // O 'Suite != null' verifica se a suíte foi cadastrada antes de checar a capacidade
             if (Suite != null && hospedes.Count <= Suite.Capacidade)
             {
                 Hospedes = hospedes;
             }
             else
             {
-                // Mensagem clara de erro se a capacidade for excedida
                 throw new System.Exception("A quantidade de hóspedes excede a capacidade da suíte.");
             }
         }
 
-        // Método para cadastrar a suíte
+        // Método para cadastrar a suíte (sem alteração)
         public void CadastrarSuite(Suite suite)
         {
             Suite = suite;
         }
 
-        // Método para obter a quantidade de hóspedes cadastrados
+        // Método para obter a quantidade de hóspedes cadastrados (sem alteração)
         public int ObterQuantidadeHospedes()
         {
-            // O operador '?? 0' (Null Coalescing Operator) garante que se Hospedes for nulo, ele retorna 0.
             return Hospedes?.Count ?? 0;
         }
+        
+        // NOVO MÉTODO: Calcula o valor da diária SEM aplicar o desconto
+        public decimal CalcularValorSemDesconto()
+        {
+            if (Suite == null)
+            {
+                throw new System.Exception("Suíte não cadastrada. Não é possível calcular o valor.");
+            }
+            return DiasReservados * Suite.ValorDiaria;
+        }
 
-        // Método principal para calcular o valor da diária
+        // Método principal para calcular o valor da diária (COM desconto, se aplicável)
         public decimal CalcularValorDiaria()
         {
-            // Garante que a suíte existe antes de tentar acessar suas propriedades.
             if (Suite == null)
             {
                 throw new System.Exception("Suíte não cadastrada. Não é possível calcular o valor.");
             }
             
-            // O valor inicial é o valor da diária da suíte vezes a quantidade de dias
-            decimal valorTotal = DiasReservados * Suite.ValorDiaria;
+            decimal valorTotal = CalcularValorSemDesconto(); // Começa com o valor sem desconto
 
-            // REGRA DE NEGÓCIO: Se os dias reservados forem MAIORES que 10, aplica 10% de desconto
+            // REGRA DE NEGÓCIO: Desconto de 10% para mais de 10 dias
             if (DiasReservados > 10)
             {
-                decimal desconto = valorTotal * 0.10M; // 10% do valor total
-                valorTotal -= desconto; // Subtrai o desconto do valor total
+                decimal desconto = valorTotal * 0.10M;
+                valorTotal -= desconto;
             }
 
             return valorTotal;
