@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using SistemaHospedagem.Models; // Adiciona o uso das classes da nossa pasta Models
+using System.Linq; // Adicionado para usar o .Count() e outras funcionalidades
+using SistemaHospedagem.Models;
 
 namespace SistemaHospedagem
 {
@@ -8,76 +9,114 @@ namespace SistemaHospedagem
     {
         static void Main(string[] args)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8; // Para garantir que acentos e símbolos apareçam corretamente
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.WriteLine("-----------------------------------------------");
+            Console.WriteLine("        BEM-VINDO AO SISTEMA DE RESERVAS       ");
+            Console.WriteLine("-----------------------------------------------");
 
-            // 1. Criando os Hóspedes (objetos da classe Pessoa)
-            Console.WriteLine("--- Cadastro de Hóspedes ---");
+            // 1. Coletando dados da Suíte
+            Console.WriteLine("\n--- Configuração da Suíte ---");
+
+            // Coletando o Tipo
+            Console.Write("Digite o tipo da suíte (Ex: Premium, Luxo, Padrão): ");
+            string? tipoSuite = Console.ReadLine();
+
+            // Coletando a Capacidade
+            Console.Write("Digite a capacidade máxima de hóspedes: ");
+            int capacidade = 0;
+            // Usamos um loop e TryParse para garantir que o usuário digite um número inteiro
+            while (!int.TryParse(Console.ReadLine(), out capacidade) || capacidade <= 0)
+            {
+                Console.Write("Entrada inválida. Digite um número inteiro maior que zero para a capacidade: ");
+            }
+
+            // Coletando o Valor da Diária
+            Console.Write("Digite o valor da diária (Ex: 150,50): R$ ");
+            decimal valorDiaria = 0M;
+            // Usamos um loop e TryParse para garantir que o usuário digite um valor decimal
+            while (!decimal.TryParse(Console.ReadLine(), out valorDiaria) || valorDiaria <= 0)
+            {
+                Console.Write("Entrada inválida. Digite um valor de diária válido e maior que zero: R$ ");
+            }
+
+            // Criando o objeto Suíte com os dados do usuário
+            Suite suite = new Suite(tipoSuite: tipoSuite!, capacidade: capacidade, valorDiaria: valorDiaria);
+            
+            Console.WriteLine($"\nSuíte '{suite.TipoSuite}' configurada com sucesso!");
+
+
+            // 2. Coletando Dias Reservados
+            Console.WriteLine("\n--- Período da Reserva ---");
+            Console.Write("Digite a quantidade de dias da reserva: ");
+            int dias = 0;
+            while (!int.TryParse(Console.ReadLine(), out dias) || dias <= 0)
+            {
+                Console.Write("Entrada inválida. Digite um número inteiro maior que zero para os dias: ");
+            }
+
+
+            // 3. Coletando dados dos Hóspedes
+            Console.WriteLine($"\n--- Cadastro de Hóspedes (Máximo: {suite.Capacidade}) ---");
             List<Pessoa> hospedes = new List<Pessoa>();
 
-            Pessoa p1 = new Pessoa(nome: "Pedro", sobrenome: "Silva");
-            Pessoa p2 = new Pessoa(nome: "Maria", sobrenome: "Santos");
-            // Pessoa p3 = new Pessoa(nome: "João", sobrenome: "Ferreira"); // Hóspede extra para testar a capacidade
+            Console.Write("Quantos hóspedes serão cadastrados? ");
+            int numHospedes = 0;
+            while (!int.TryParse(Console.ReadLine(), out numHospedes) || numHospedes <= 0 || numHospedes > suite.Capacidade)
+            {
+                 Console.Write($"Entrada inválida. Digite um número entre 1 e {suite.Capacidade}: ");
+            }
+            
+            // Loop para coletar o nome de cada hóspede
+            for (int i = 0; i < numHospedes; i++)
+            {
+                Console.WriteLine($"\n--- Hóspede #{i + 1} ---");
+                Console.Write("Nome: ");
+                string? nome = Console.ReadLine();
 
-            hospedes.Add(p1);
-            hospedes.Add(p2);
-            // hospedes.Add(p3); // Tente descomentar para ver a exceção de capacidade!
+                Console.Write("Sobrenome: ");
+                string? sobrenome = Console.ReadLine();
 
-            // 2. Criando a Suíte (objeto da classe Suite)
-            Console.WriteLine("\n--- Configuração da Suíte ---");
-            Suite suite = new Suite(tipoSuite: "Premium", capacidade: 2, valorDiaria: 100.00M);
-
-            Console.WriteLine($"Suíte: {suite.TipoSuite}");
-            Console.WriteLine($"Capacidade Máxima: {suite.Capacidade}");
-            Console.WriteLine($"Valor da Diária: R$ {suite.ValorDiaria:F2}");
+                // Criando e adicionando a Pessoa à lista
+                hospedes.Add(new Pessoa(nome: nome!, sobrenome: sobrenome!));
+            }
 
 
-            // 3. Criando a Reserva (objeto da classe Reserva)
-            // Vamos testar com 15 dias para verificar o desconto de 10%
-            int dias = 15;
+            // 4. Criando e Processando a Reserva
+            Console.WriteLine("\n--- Processando Reserva ---");
             Reserva reserva = new Reserva(diasReservados: dias);
             reserva.CadastrarSuite(suite);
-
-
-            // Tentativa de cadastrar os hóspedes na reserva
+            
             try
             {
-                // Aqui a suíte já está cadastrada, o sistema verifica a capacidade.
                 reserva.CadastrarHospedes(hospedes);
+
+                // 5. Exibindo os Resultados
+                Console.WriteLine("\n--- Detalhes e Valor ---");
+                Console.WriteLine($"Suíte Reservada: {reserva.Suite!.TipoSuite}");
+                Console.WriteLine($"Dias Reservados: {reserva.DiasReservados}");
+                Console.WriteLine($"Quantidade de Hóspedes: {reserva.ObterQuantidadeHospedes()}");
+                
+                Console.WriteLine("\nHóspedes:");
+                // Agora o '!' é justificado, pois o programa não teria chegado aqui se fosse nulo.
+                foreach (Pessoa h in reserva.Hospedes!) 
+                {
+                    Console.WriteLine($"- {h.NomeCompleto}");
+                }
+
+                decimal valorTotal = reserva.CalcularValorDiaria();
+
+                if (reserva.DiasReservados > 10)
+                {
+                    Console.WriteLine($"\n** Desconto de 10% Aplicado! (Reserva de {reserva.DiasReservados} dias) **");
+                }
+                
+                Console.WriteLine($"\nVALOR TOTAL DA RESERVA: R$ {valorTotal:F2}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"ERRO ao cadastrar hóspedes: {ex.Message}");
-                // Se der erro, encerra o programa e não continua o cálculo
-                return; 
+                // Se o usuário tentar cadastrar mais pessoas do que o permitido na suíte.
+                Console.WriteLine($"\nFalha na Reserva: {ex.Message}");
             }
-
-            // 4. Exibindo os Resultados
-            Console.WriteLine("\n--- Detalhes da Reserva ---");
-            Console.WriteLine($"Dias Reservados: {reserva.DiasReservados}");
-            Console.WriteLine($"Quantidade de Hóspedes: {reserva.ObterQuantidadeHospedes()}");
-
-            Console.WriteLine("Hóspedes Cadastrados:");
-            // Correção: Usamos o '!' (operador de supressão de nulo) para garantir que
-            // a lista Hospedes não é nula, pois ela foi cadastrada com sucesso acima.
-            foreach (Pessoa h in reserva.Hospedes!) 
-            {
-                Console.WriteLine($"- {h.NomeCompleto}");
-            }
-
-            // Calculando e exibindo o valor total
-            decimal valorTotal = reserva.CalcularValorDiaria();
-
-            // Lógica para saber se o desconto foi aplicado
-            if (reserva.DiasReservados > 10)
-            {
-                Console.WriteLine($"\n** Desconto de 10% Aplicado! (Reserva de {reserva.DiasReservados} dias) **");
-            }
-            else
-            {
-                Console.WriteLine("\nDesconto não aplicado (Reserva de 10 dias ou menos).");
-            }
-
-            Console.WriteLine($"\nVALOR TOTAL DA RESERVA: R$ {valorTotal:F2}");
         }
     }
 }
