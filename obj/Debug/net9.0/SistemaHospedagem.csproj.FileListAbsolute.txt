@@ -1,0 +1,5 @@
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.GeneratedMSBuildEditorConfig.editorconfig
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.AssemblyInfoInputs.cache
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.AssemblyInfo.cs
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.csproj.CoreCompileInputs.cache
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.sourcelink.json
