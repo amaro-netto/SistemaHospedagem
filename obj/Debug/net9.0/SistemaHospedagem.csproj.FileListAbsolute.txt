@@ -3,3 +3,13 @@ B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.AssemblyInfoInp
 B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.AssemblyInfo.cs
 B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.csproj.CoreCompileInputs.cache
 B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.sourcelink.json
+B:\Projetos\SistemaHospedagem\bin\Debug\net9.0\SistemaHospedagem.exe
+B:\Projetos\SistemaHospedagem\bin\Debug\net9.0\SistemaHospedagem.deps.json
+B:\Projetos\SistemaHospedagem\bin\Debug\net9.0\SistemaHospedagem.runtimeconfig.json
+B:\Projetos\SistemaHospedagem\bin\Debug\net9.0\SistemaHospedagem.dll
+B:\Projetos\SistemaHospedagem\bin\Debug\net9.0\SistemaHospedagem.pdb
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.dll
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\refint\SistemaHospedagem.dll
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.pdb
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\SistemaHospedagem.genruntimeconfig.cache
+B:\Projetos\SistemaHospedagem\obj\Debug\net9.0\ref\SistemaHospedagem.dll

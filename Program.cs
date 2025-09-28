@@ -1,5 +1,4 @@
-﻿// Program.cs
-using System;
+﻿using System;
 using System.Collections.Generic;
 using SistemaHospedagem.Models; // Adiciona o uso das classes da nossa pasta Models
 
@@ -17,11 +16,11 @@ namespace SistemaHospedagem
 
             Pessoa p1 = new Pessoa(nome: "Pedro", sobrenome: "Silva");
             Pessoa p2 = new Pessoa(nome: "Maria", sobrenome: "Santos");
-            Pessoa p3 = new Pessoa(nome: "João", sobrenome: "Ferreira");
+            // Pessoa p3 = new Pessoa(nome: "João", sobrenome: "Ferreira"); // Hóspede extra para testar a capacidade
 
             hospedes.Add(p1);
             hospedes.Add(p2);
-            // hospedes.Add(p3); // Deixamos um hóspede de fora por enquanto para testar a capacidade
+            // hospedes.Add(p3); // Tente descomentar para ver a exceção de capacidade!
 
             // 2. Criando a Suíte (objeto da classe Suite)
             Console.WriteLine("\n--- Configuração da Suíte ---");
@@ -42,12 +41,14 @@ namespace SistemaHospedagem
             // Tentativa de cadastrar os hóspedes na reserva
             try
             {
+                // Aqui a suíte já está cadastrada, o sistema verifica a capacidade.
                 reserva.CadastrarHospedes(hospedes);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"ERRO ao cadastrar hóspedes: {ex.Message}");
-                return; // Encerra o programa se der erro na capacidade
+                // Se der erro, encerra o programa e não continua o cálculo
+                return; 
             }
 
             // 4. Exibindo os Resultados
@@ -56,7 +57,9 @@ namespace SistemaHospedagem
             Console.WriteLine($"Quantidade de Hóspedes: {reserva.ObterQuantidadeHospedes()}");
 
             Console.WriteLine("Hóspedes Cadastrados:");
-            foreach (Pessoa h in reserva.Hospedes)
+            // Correção: Usamos o '!' (operador de supressão de nulo) para garantir que
+            // a lista Hospedes não é nula, pois ela foi cadastrada com sucesso acima.
+            foreach (Pessoa h in reserva.Hospedes!) 
             {
                 Console.WriteLine($"- {h.NomeCompleto}");
             }
