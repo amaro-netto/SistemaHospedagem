@@ -1,6 +1,6 @@
 # SISTEMA DE RESERVA DE HOSPEDAGEM (C# .NET)
 
-![C#: 9.0](https://img.shields.io/badge/C%23-9.0-512BD4?labelColor=178600&style=for-the-badge&logo=c-sharp&logoColor=white)
+![C#: 9.0](https://img.shields.io/badge/C%23-9.0-c4c4c4?labelColor=178600&style=for-the-badge&logo=c-sharp&logoColor=white)
 ![STATUS: Concluído](https://img.shields.io/badge/STATUS-Concluído-success?style=for-the-badge)
 
 ---
