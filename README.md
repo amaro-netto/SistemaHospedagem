@@ -1,8 +1,6 @@
 # SISTEMA DE RESERVA DE HOSPEDAGEM (C# .NET)
 
-![C#: 90](https://img.shields.io/badge/C%23-90-512BD4?labelColor=178600&style=for-the-badge&logo=c-sharp&logoColor=white)
-![.NET: 70](https://img.shields.io/badge/.NET-70-512BD4?labelColor=512BD4&style=for-the-badge&logo=.net&logoColor=white)
-![POO: 100](https://img.shields.io/badge/POO-100-3078a6?labelColor=2a394a&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjRjM2MjQ2IiBkPSJNMTQgMTQuMDM3VjE3Ljk2M0wxOS4wMyAyMVYxMS4wNzRsLTUuMDMgMi45NjNaTTEwIDE0LjAzN1YxNy45NjNMMC45NyAyMVYxMS4wNzRMMTAgMTQuMDM3WiIvPjwvc3ZnPg==&logoColor=white)
+![C#: 9.0](https://img.shields.io/badge/C%23-9.0-512BD4?labelColor=178600&style=for-the-badge&logo=c-sharp&logoColor=white)
 ![STATUS: Concluído](https://img.shields.io/badge/STATUS-Concluído-success?style=for-the-badge)
 
 ---
